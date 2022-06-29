@@ -1,29 +1,41 @@
-import '@assets/main.css'
-import '@assets/chrome-bug.css'
-import 'keen-slider/keen-slider.min.css'
+import React from 'react'
+import App from 'next/app'
+import { ThemeProvider, CSSReset, Flex } from '@chakra-ui/core'
 
-import { FC, useEffect } from 'react'
-import type { AppProps } from 'next/app'
-import { Head } from '@components/common'
-import { ManagedUIContext } from '@components/ui/context'
+import ErrorScreen from './_error'
 
-const Noop: FC = ({ children }) => <>{children}</>
+//import reporter from '~/reporting'
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  const Layout = (Component as any).Layout || Noop
+// process.on('unhandledRejection', (error: Error) => {
+//   reporter.exception(error, { origin: 'server | unhandledRejection' })
+// })
 
-  useEffect(() => {
-    document.body.classList?.remove('loading')
-  }, [])
+// process.on('uncaughtException', (error: Error) => {
+//   reporter.exception(error, { origin: 'server | uncaughtException' })
+// })
 
-  return (
-    <>
-      <Head />
-      <ManagedUIContext>
-        <Layout pageProps={pageProps}>
-          <Component {...pageProps} />
-        </Layout>
-      </ManagedUIContext>
-    </>
-  )
+export default class Salsa extends App {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // reporter.exception(error, { extras: errorInfo, origin: 'client' })
+
+    super.componentDidCatch(error, errorInfo)
+  }
+
+  render() {
+    const { Component, pageProps } = this.props
+    const { statusCode: error } = pageProps
+
+    return (
+      <ThemeProvider>
+        <CSSReset />
+        {error ? (
+          <ErrorScreen statusCode={error} />
+        ) : (
+          <Flex direction="column" height="100%">
+            <Component {...pageProps} />
+          </Flex>
+        )}
+      </ThemeProvider>
+    )
+  }
 }

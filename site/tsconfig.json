@@ -1,32 +1,39 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "esnext",
-    "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "es2017"],
+    "strict": false,
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "outDir": ".",
     "jsx": "preserve",
-    "incremental": true,
+    "baseUrl": ".",
     "paths": {
-      "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"],
-      "@config/*": ["config/*"],
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@commerce": ["../packages/commerce/src"],
-      "@commerce/*": ["../packages/commerce/src/*"],
+      "~/*": ["./*"],
       "@framework": ["../packages/shopify/src"],
       "@framework/*": ["../packages/shopify/src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "dist",
+    ".next",
+    "out",
+    "next.config.js",
+    "cypress",
+    "jest.config.js"
+  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
